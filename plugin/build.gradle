@@ -1,0 +1,90 @@
+/*******************************************************************************
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+*******************************************************************************/
+
+plugins {
+    id 'signing'
+    id 'java-gradle-plugin'
+    id 'com.gradle.plugin-publish' version 'latest.release'
+}
+
+repositories {
+    mavenCentral()
+}
+
+group = 'io.github.arvinb.dockerx'
+version = '1.0.0'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+dependencies {
+
+    // Implementation
+    implementation gradleApi()
+    implementation 'com.github.docker-java:docker-java:latest.release'
+    implementation 'com.github.docker-java:docker-java-core:latest.release'
+    implementation 'com.github.docker-java:docker-java-transport-httpclient5:latest.release'
+    implementation 'de.undercouch:gradle-download-task:latest.release'
+    implementation 'org.ajoberstar.grgit:grgit-gradle:latest.release'
+
+    // Testing
+    testImplementation 'org.junit.jupiter:junit-jupiter:latest.release'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher:latest.release'
+}
+
+gradlePlugin {
+    
+    website = 'https://github.com/ArvinB/dockerx-gradle-plugin/blob/main/README.md'
+    vcsUrl = 'https://github.com/ArvinB/dockerx-gradle-plugin.git'
+    
+    plugins {
+        dockerX {
+            id = 'io.github.arvinb.dockerx'
+            implementationClass = 'io.github.arvinb.dockerx.DockerXPlugin'
+            displayName = 'DockerX Build Gradle Plugin'
+            description = 'A Gradle plugin based on docker buildx and other tools.'
+            tags = ['docker', 'buildx']
+        }
+    }
+}
+
+signing {
+    sign publishing.publications
+}
+
+javadoc.options.addStringOption('Xdoclint:none', '-quiet')
+
+// Testing
+sourceSets { functionalTest { } }
+configurations.functionalTestImplementation.extendsFrom(configurations.testImplementation)
+configurations.functionalTestRuntimeOnly.extendsFrom(configurations.testRuntimeOnly)
+
+tasks.register('functionalTest', Test) {
+    testClassesDirs = sourceSets.functionalTest.output.classesDirs
+    classpath = sourceSets.functionalTest.runtimeClasspath
+    useJUnitPlatform()
+}
+
+gradlePlugin.testSourceSets.add(sourceSets.functionalTest)
+
+tasks.named('test') { useJUnitPlatform() }
+tasks.named('check') { dependsOn(tasks.functionalTest) }
