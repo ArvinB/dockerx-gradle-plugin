@@ -44,20 +44,20 @@ public class DockerXOPMRegistry extends DefaultTask {
                 DockerXVerifyUtil.verifyDockerEnvironment();
                 
                 // Clean the environment
-                if ( ext.getOpmConfig().getClean().get() )
-                    DockerXDockerUtil.pruneAndClearCache(getProject(), ext.getDockerConfig().getBuilder().get());
+                if ( ext.getOpmSpecs().getClean().get() )
+                    DockerXDockerUtil.pruneAndClearCache(getProject(), ext.getDockerSpecs().getBuilder().get());
                 
-                switch(DockerXOPMEnum.fromString(ext.getOpmConfig().getAction().getOrElse(EMPTY_STRING))) {
+                switch(DockerXOPMEnum.fromString(ext.getOpmSpecs().getAction().getOrElse(EMPTY_STRING))) {
                     
                     case ADD:
                     
                         // Add Registry to create a bundles db
-                        DockerXOPMUtil.addRegistryBundlesDb(getProject(),                                                 // Gradle Project
-                                                            ext.getOpmConfig().getBundleImages().get(),                   // Bundle images
-                                                            ext.getBundleDirectory(),                                     // Bundle directory
-                                                            ext.getOpmConfig().getTool().get(),                           // Container tool (Default: docker)
-                                                            ext.getOpmConfig().getMode().get(),                           // Graph update mode (Default: replaces)
-                                                            ext.getRegistryCredentials(ext.getDockerCredConfig()).get()); // Docker Registry Credentials
+                        DockerXOPMUtil.addRegistryBundlesDb(getProject(),                                                // Gradle Project
+                                                            ext.getOpmSpecs().getBundleImages().get(),                   // Bundle images
+                                                            ext.getBundleDirectory(),                                    // Bundle directory
+                                                            ext.getOpmSpecs().getTool().get(),                           // Container tool (Default: docker)
+                                                            ext.getOpmSpecs().getMode().get(),                           // Graph update mode (Default: replaces)
+                                                            ext.getRegistryCredentials(ext.getDockerCredSpecs()).get()); // Docker Registry Credentials
                         break;
                 }
             }
@@ -77,23 +77,23 @@ public class DockerXOPMRegistry extends DefaultTask {
         taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_BASE + ") DRYRUN: ").append(ext.getDryrun().getOrNull()).append(NEW_LINE);
         taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_SKIP + ") SKIP: ").append(ext.getSkip().getOrNull()).append(NEW_LINE);
         taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_BASE + ") WORKING DIR: ").append(ext.getWorkingDirectory().getOrNull()).append(NEW_LINE);
-        taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_OPM + ") ACTION: ").append(ext.getOpmConfig().getAction().getOrNull()).append(NEW_LINE);
-        taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_OPM + ") CLEAN: ").append(ext.getOpmConfig().getClean().getOrNull()).append(NEW_LINE);
-        taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_OPM + ") BUNDLE DIR: ").append(ext.getOpmConfig().getBundleDir().getOrNull()).append(NEW_LINE);
-        taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_OPM + ") PACKAGE NAME: ").append(ext.getOpmConfig().getPackageName().getOrNull()).append(NEW_LINE);
-        taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_OPM + ") DEFAULT CHANNEL: ").append(ext.getOpmConfig().getDefaultChannel().getOrNull()).append(NEW_LINE);
-        taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_OPM + ") TOOL: ").append(ext.getOpmConfig().getTool().getOrNull()).append(NEW_LINE);
-        taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_OPM + ") MODE: ").append(ext.getOpmConfig().getMode().getOrNull()).append(NEW_LINE);
-        taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_OPM + ") OVERWRITE METADATA: ").append(ext.getOpmConfig().getOverwriteMetadata().getOrNull()).append(NEW_LINE);
+        taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_OPM + ") ACTION: ").append(ext.getOpmSpecs().getAction().getOrNull()).append(NEW_LINE);
+        taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_OPM + ") CLEAN: ").append(ext.getOpmSpecs().getClean().getOrNull()).append(NEW_LINE);
+        taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_OPM + ") BUNDLE DIR: ").append(ext.getOpmSpecs().getBundleDir().getOrNull()).append(NEW_LINE);
+        taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_OPM + ") PACKAGE NAME: ").append(ext.getOpmSpecs().getPackageName().getOrNull()).append(NEW_LINE);
+        taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_OPM + ") DEFAULT CHANNEL: ").append(ext.getOpmSpecs().getDefaultChannel().getOrNull()).append(NEW_LINE);
+        taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_OPM + ") TOOL: ").append(ext.getOpmSpecs().getTool().getOrNull()).append(NEW_LINE);
+        taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_OPM + ") MODE: ").append(ext.getOpmSpecs().getMode().getOrNull()).append(NEW_LINE);
+        taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_OPM + ") OVERWRITE METADATA: ").append(ext.getOpmSpecs().getOverwriteMetadata().getOrNull()).append(NEW_LINE);
         
         counter.set(0);
-        ext.getOpmConfig().getChannels().get().forEach( channel -> {
+        ext.getOpmSpecs().getChannels().get().forEach( channel -> {
             taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_OPM + ") CHANNEL[" + counter + "]: ").append(channel).append(NEW_LINE);
             counter.getAndIncrement();
         });
         
         counter.set(0);
-        ext.getOpmConfig().getBundleImages().get().forEach( bundleImage -> {
+        ext.getOpmSpecs().getBundleImages().get().forEach( bundleImage -> {
             taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_OPM + ") BUNDLE IMAGE[" + counter + "]: ").append(bundleImage).append(NEW_LINE);
             counter.getAndIncrement();
         });

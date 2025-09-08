@@ -56,12 +56,12 @@ public class DockerXExecute extends DefaultTask {
         taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_BASE + ") DRYRUN: ").append(ext.getDryrun().getOrNull()).append(NEW_LINE);
         taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_SKIP + ") SKIP: ").append(ext.getSkip().getOrNull()).append(NEW_LINE);
         taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_BASE + ") WORKING DIR: ").append(ext.getWorkingDirectory().getOrNull()).append(NEW_LINE);
-        taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_EXECUTE + ") HIDE ARGS: ").append(ext.getExecConfig().getHideArgs().getOrNull()).append(NEW_LINE);
+        taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_EXECUTE + ") HIDE ARGS: ").append(ext.getExecSpecs().getHideArgs().getOrNull()).append(NEW_LINE);
         
         ext.getActionItems().get().forEach( actionItem -> {
             
             taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_EXECUTE + ") ACTION[" + counter + "]: ").append(actionItem.getActionObj().get().getAsFile().getPath()).append(NEW_LINE);
-            if (!ext.getExecConfig().getHideArgs().get())
+            if (!ext.getExecSpecs().getHideArgs().get())
                 taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_EXECUTE + ") ARGS[" + counter + "]: ").append(actionItem.getActionArgs().get().toString()).append(NEW_LINE);
             counter.getAndIncrement();
         });

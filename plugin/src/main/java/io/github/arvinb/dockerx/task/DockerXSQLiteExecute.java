@@ -42,9 +42,9 @@ public class DockerXSQLiteExecute extends DefaultTask {
                 DockerXVerifyUtil.verifySQLite(getProject());
                 
                 // Execute SQLite statements
-                DockerXSQLiteUtil.executeSQLiteStatements(getProject(),                                 // Gradle Project
-                                                          ext.getDataSourceDbFile().getOrNull(),        // SQLite datasource db
-                                                          ext.getSqliteConfig().getStatements().get()); // SQLite statements
+                DockerXSQLiteUtil.executeSQLiteStatements(getProject(),                                // Gradle Project
+                                                          ext.getDataSourceDbFile().getOrNull(),       // SQLite datasource db
+                                                          ext.getSqliteSpecs().getStatements().get()); // SQLite statements
             }
         }
     }
@@ -62,9 +62,9 @@ public class DockerXSQLiteExecute extends DefaultTask {
         taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_BASE + ") DRYRUN: ").append(  ext.getDryrun().getOrNull()).append(NEW_LINE);
         taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_SKIP + ") SKIP: ").append(  ext.getSkip().getOrNull()).append(NEW_LINE);
         taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_BASE + ") WORKING DIR: ").append(ext.getWorkingDirectory().getOrNull()).append(NEW_LINE);
-        taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_SQLITE + ") DATASOURCE DB: ").append(ext.getSqliteConfig().getDataSourceDb().getOrNull()).append(NEW_LINE);
+        taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_SQLITE + ") DATASOURCE DB: ").append(ext.getSqliteSpecs().getDataSourceDb().getOrNull()).append(NEW_LINE);
         
-        ext.getSqliteConfig().getStatements().get().forEach( statement -> {
+        ext.getSqliteSpecs().getStatements().get().forEach( statement -> {
             
             taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_SQLITE + ") STATEMENT[" + counter + "]: ").append(statement).append(NEW_LINE);
             counter.getAndIncrement();

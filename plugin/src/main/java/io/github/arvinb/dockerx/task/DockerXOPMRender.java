@@ -41,16 +41,16 @@ public class DockerXOPMRender extends DefaultTask {
             DockerXVerifyUtil.verifyDockerEnvironment();
 
             // Clean the environment
-            if ( ext.getOpmConfig().getClean().get() )
-                DockerXDockerUtil.pruneAndClearCache(getProject(), ext.getDockerConfig().getBuilder().get());
+            if ( ext.getOpmSpecs().getClean().get() )
+                DockerXDockerUtil.pruneAndClearCache(getProject(), ext.getDockerSpecs().getBuilder().get());
                     
             // Render bundle image to create operator.yaml
-            DockerXOPMUtil.renderBundleImage(getProject(),                                                    // Gradle Project
-                                                ext.getWorkingDirectory(),                                    // Working directory 
-                                                ext.getOpmConfig().getBundleSources().get(),                  // List of Bundle Sources
-                                                ext.getOpmConfig().getOutputPrefix().get(),                   // Output file prefix
-                                                ext.getOpmConfig().getOutputFormat().get(),                   // Output format (json|yaml) (default "yaml")
-                                                ext.getRegistryCredentials(ext.getDockerCredConfig()).get()); // Docker Registry Credentials
+            DockerXOPMUtil.renderBundleImage(getProject(),                                                   // Gradle Project
+                                                ext.getWorkingDirectory(),                                   // Working directory 
+                                                ext.getOpmSpecs().getBundleSources().get(),                  // List of Bundle Sources
+                                                ext.getOpmSpecs().getOutputPrefix().get(),                   // Output file prefix
+                                                ext.getOpmSpecs().getOutputFormat().get(),                   // Output format (json|yaml) (default "yaml")
+                                                ext.getRegistryCredentials(ext.getDockerCredSpecs()).get()); // Docker Registry Credentials
         }
     }
 
@@ -66,13 +66,13 @@ public class DockerXOPMRender extends DefaultTask {
         
         taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_BASE + ") DRYRUN: ").append(ext.getDryrun().getOrNull()).append(NEW_LINE);
         taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_BASE + ") WORKING DIR: ").append(ext.getWorkingDirectory().getOrNull()).append(NEW_LINE);
-        taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_OPM + ") CLEAN: ").append(ext.getOpmConfig().getClean().getOrNull()).append(NEW_LINE);
-        taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_OPM + ") OUTPUT PREFIX: ").append(ext.getOpmConfig().getOutputPrefix().getOrNull()).append(NEW_LINE);
-        taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_OPM + ") FORMAT: ").append(ext.getOpmConfig().getOutputFormat().getOrNull()).append(NEW_LINE);
-        taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_OPM + ") BUNDLE SOURCES: ").append(ext.getOpmConfig().getBundleSources().getOrNull()).append(NEW_LINE);
+        taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_OPM + ") CLEAN: ").append(ext.getOpmSpecs().getClean().getOrNull()).append(NEW_LINE);
+        taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_OPM + ") OUTPUT PREFIX: ").append(ext.getOpmSpecs().getOutputPrefix().getOrNull()).append(NEW_LINE);
+        taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_OPM + ") FORMAT: ").append(ext.getOpmSpecs().getOutputFormat().getOrNull()).append(NEW_LINE);
+        taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_OPM + ") BUNDLE SOURCES: ").append(ext.getOpmSpecs().getBundleSources().getOrNull()).append(NEW_LINE);
         
         counter.set(0);
-        ext.getOpmConfig().getBundleSources().get().forEach( bundleSource -> {
+        ext.getOpmSpecs().getBundleSources().get().forEach( bundleSource -> {
             taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_OPM + ") BUNDLE SOURCE[" + counter + "]: ").append(bundleSource).append(NEW_LINE);
             counter.getAndIncrement();
         });

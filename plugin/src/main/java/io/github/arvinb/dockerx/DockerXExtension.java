@@ -100,17 +100,17 @@ public abstract class DockerXExtension {
     public void opmSpecs(Action<? super DockerXOPMConfig> action)             { action.execute(opmConfig);          }
     public void sqliteSpecs(Action<? super DockerXSQLiteConfig> action)       { action.execute(sqliteConfig);       }
 
-    public DockerXCredentialConfig getDockerCredConfig()   { return this.dockerCredConfig;   }
-    public DockerXCredentialConfig getDownloadCredConfig() { return this.downloadCredConfig; }
-    public DockerXCredentialConfig getGitHubCredConfig()   { return this.gitHubCredConfig;   }
-    public DockerXCatalogConfig getCatalogConfig()         { return this.catalogConfig;      }
-    public DockerXDigestConfig getDigestConfig()           { return this.digestConfig;       }
-    public DockerXDockerConfig getDockerConfig()           { return this.dockerConfig;       }
-    public DockerXDownloadConfig getDownloadConfig()       { return this.downloadConfig;     }
-    public DockerXExecuteConfig getExecConfig()            { return this.execConfig;         }
-    public DockerXGitHubConfig getGitHubConfig()           { return this.gitHubConfig;       }
-    public DockerXOPMConfig getOpmConfig()                 { return this.opmConfig;          }
-    public DockerXSQLiteConfig getSqliteConfig()           { return this.sqliteConfig;       }
+    public DockerXCredentialConfig getDockerCredSpecs()   { return this.dockerCredConfig;   }
+    public DockerXCredentialConfig getDownloadCredSpecs() { return this.downloadCredConfig; }
+    public DockerXCredentialConfig getGitHubCredSpecs()   { return this.gitHubCredConfig;   }
+    public DockerXCatalogConfig getCatalogSpecs()         { return this.catalogConfig;      }
+    public DockerXDigestConfig getDigestSpecs()           { return this.digestConfig;       }
+    public DockerXDockerConfig getDockerSpecs()           { return this.dockerConfig;       }
+    public DockerXDownloadConfig getDownloadSpecs()       { return this.downloadConfig;     }
+    public DockerXExecuteConfig getExecSpecs()            { return this.execConfig;         }
+    public DockerXGitHubConfig getGitHubSpecs()           { return this.gitHubConfig;       }
+    public DockerXOPMConfig getOpmSpecs()                 { return this.opmConfig;          }
+    public DockerXSQLiteConfig getSqliteSpecs()           { return this.sqliteConfig;       }
 
     ///
 
@@ -120,32 +120,32 @@ public abstract class DockerXExtension {
         getDryrun().convention(DEFAULT_TRUE);
         getSkip().convention(DEFAULT_FALSE);
 
-        getDockerConfig().getDevbuild().convention(DEFAULT_FALSE);
-        getDockerConfig().getMultiArchReset().convention(DEFAULT_FALSE);
-        getDockerConfig().getClean().convention(DEFAULT_TRUE);
-        getDockerConfig().getPush().convention(DEFAULT_FALSE);
-        getDockerConfig().getBuilder().convention(EMPTY_STRING);
+        getDockerSpecs().getDevbuild().convention(DEFAULT_FALSE);
+        getDockerSpecs().getMultiArchReset().convention(DEFAULT_FALSE);
+        getDockerSpecs().getClean().convention(DEFAULT_TRUE);
+        getDockerSpecs().getPush().convention(DEFAULT_FALSE);
+        getDockerSpecs().getBuilder().convention(EMPTY_STRING);
 
-        getDownloadConfig().getOverwrite().convention(DEFAULT_FALSE);
-        getDownloadConfig().getIdentityToken().convention(DEFAULT_FALSE);
+        getDownloadSpecs().getOverwrite().convention(DEFAULT_FALSE);
+        getDownloadSpecs().getIdentityToken().convention(DEFAULT_FALSE);
 
-        getExecConfig().getHideArgs().convention(DEFAULT_TRUE);
+        getExecSpecs().getHideArgs().convention(DEFAULT_TRUE);
 
-        getOpmConfig().getCatalogIcon().convention(CATALOG_ICON);
-        getOpmConfig().getCatalogReadme().convention(CATALOG_README);
-        getOpmConfig().getClean().convention(DEFAULT_TRUE);
-        getOpmConfig().getPush().convention(DEFAULT_FALSE);
-        getOpmConfig().getOverwriteMetadata().convention(DEFAULT_FALSE);
-        getOpmConfig().getTool().convention(DEFAULT_DOCKER);
-        getOpmConfig().getMode().convention(DEFAULT_REPLACES);
-        getOpmConfig().getOutputPrefix().convention(DEFAULT_OLM_PACKAGE);
-        getOpmConfig().getOutputFormat().convention(DEFAULT_YAML);
-        getOpmConfig().getChannels().convention(objectFactory.listProperty(String.class));
-        getOpmConfig().getBundleImages().convention(objectFactory.listProperty(String.class));
-        getOpmConfig().getBundleSources().convention(objectFactory.listProperty(String.class));
+        getOpmSpecs().getCatalogIcon().convention(CATALOG_ICON);
+        getOpmSpecs().getCatalogReadme().convention(CATALOG_README);
+        getOpmSpecs().getClean().convention(DEFAULT_TRUE);
+        getOpmSpecs().getPush().convention(DEFAULT_FALSE);
+        getOpmSpecs().getOverwriteMetadata().convention(DEFAULT_FALSE);
+        getOpmSpecs().getTool().convention(DEFAULT_DOCKER);
+        getOpmSpecs().getMode().convention(DEFAULT_REPLACES);
+        getOpmSpecs().getOutputPrefix().convention(DEFAULT_OLM_PACKAGE);
+        getOpmSpecs().getOutputFormat().convention(DEFAULT_YAML);
+        getOpmSpecs().getChannels().convention(objectFactory.listProperty(String.class));
+        getOpmSpecs().getBundleImages().convention(objectFactory.listProperty(String.class));
+        getOpmSpecs().getBundleSources().convention(objectFactory.listProperty(String.class));
 
-        getSqliteConfig().getDataSourceDb().convention(BUNDLES_DB);
-        getSqliteConfig().getStatements().convention(objectFactory.listProperty(String.class));
+        getSqliteSpecs().getDataSourceDb().convention(BUNDLES_DB);
+        getSqliteSpecs().getStatements().convention(objectFactory.listProperty(String.class));
     }
 
     ///
@@ -159,8 +159,8 @@ public abstract class DockerXExtension {
     public DirectoryProperty getGitHubRepoWorkingDir() {
         DirectoryProperty ghWorkingDir = objectFactory.directoryProperty();
         ghWorkingDir.set( projectLayout.getBuildDirectory() );
-        if ( getGitHubConfig().getGitHubURI().isPresent() ) {
-            String repoName = Paths.get(getGitHubConfig().getGitHubURI().get()).getFileName().toString();
+        if ( getGitHubSpecs().getGitHubURI().isPresent() ) {
+            String repoName = Paths.get(getGitHubSpecs().getGitHubURI().get()).getFileName().toString();
             int index = repoName.lastIndexOf(".");
             repoName = index >= 1 ? repoName.substring(0, index) : repoName;
             ghWorkingDir.set( projectLayout.getBuildDirectory().dir(repoName) );
@@ -171,8 +171,8 @@ public abstract class DockerXExtension {
     public DirectoryProperty getBundleDirectory() {
         DirectoryProperty bundleDir = objectFactory.directoryProperty();
         bundleDir.set( projectLayout.getBuildDirectory() );
-        if ( getOpmConfig().getBundleDir().isPresent() )
-            bundleDir.set( getWorkingDirectory().dir(getOpmConfig().getBundleDir().get()) );
+        if ( getOpmSpecs().getBundleDir().isPresent() )
+            bundleDir.set( getWorkingDirectory().dir(getOpmSpecs().getBundleDir().get()) );
         return bundleDir;
     }
 
@@ -184,29 +184,29 @@ public abstract class DockerXExtension {
 
     public RegularFileProperty getCatalogReadme() {
         RegularFileProperty catalogReadme = objectFactory.fileProperty();
-        if ( getOpmConfig().getCatalogReadme().isPresent() )
-            catalogReadme.set( getWorkingDirectory().file(getOpmConfig().getCatalogReadme().get()) );
+        if ( getOpmSpecs().getCatalogReadme().isPresent() )
+            catalogReadme.set( getWorkingDirectory().file(getOpmSpecs().getCatalogReadme().get()) );
         return catalogReadme;
     }
 
     public RegularFileProperty getCatalogIcon() {
         RegularFileProperty catalogIcon = objectFactory.fileProperty();
-        if ( getOpmConfig().getCatalogIcon().isPresent() )
-            catalogIcon.set( getWorkingDirectory().file(getOpmConfig().getCatalogIcon().get()) );
+        if ( getOpmSpecs().getCatalogIcon().isPresent() )
+            catalogIcon.set( getWorkingDirectory().file(getOpmSpecs().getCatalogIcon().get()) );
         return catalogIcon;
     }
 
     public RegularFileProperty getDataSourceDbFile() {
         RegularFileProperty dataSourceDb = objectFactory.fileProperty();
-        if ( getSqliteConfig().getDataSourceDb().isPresent() )
-            dataSourceDb.set( getWorkingDirectory().file(getSqliteConfig().getDataSourceDb().get()) );
+        if ( getSqliteSpecs().getDataSourceDb().isPresent() )
+            dataSourceDb.set( getWorkingDirectory().file(getSqliteSpecs().getDataSourceDb().get()) );
         return dataSourceDb;
     }
 
     public RegularFileProperty getDockerfile() {
         RegularFileProperty dockerfile = objectFactory.fileProperty();
-        if ( getDockerConfig().getDockerfile().isPresent() )
-            dockerfile.set( getWorkingDirectory().file(getDockerConfig().getDockerfile().get()) );
+        if ( getDockerSpecs().getDockerfile().isPresent() )
+            dockerfile.set( getWorkingDirectory().file(getDockerSpecs().getDockerfile().get()) );
         return dockerfile;
     }
     
@@ -232,8 +232,8 @@ public abstract class DockerXExtension {
     public ListProperty<ActionItem> getActionItems() {
         ListProperty<ActionItem> actions = objectFactory.listProperty(DockerXExecuteConfig.ActionItem.class);
         // Key == Action to execute (Default: Working Dir) | Value == Action arguments
-        if ( getExecConfig().getActions().isPresent() ) {
-            for ( Map.Entry<String, String> actionItem : getExecConfig().getActions().get().entrySet() ) {
+        if ( getExecSpecs().getActions().isPresent() ) {
+            for ( Map.Entry<String, String> actionItem : getExecSpecs().getActions().get().entrySet() ) {
                 if ( actionItem.getValue() != null ) {
                     RegularFileProperty actionFile = objectFactory.fileProperty();
                     ListProperty<String> actionArgs = objectFactory.listProperty(String.class);
@@ -250,8 +250,8 @@ public abstract class DockerXExtension {
     public ListProperty<DigestItem> getDigests() {
         ListProperty<DigestItem> digests = objectFactory.listProperty(DigestItem.class);
         // Key == Image | Value == List of Files (Relative path to working dir)
-        if ( getDigestConfig().getDigests().isPresent() ) {
-            getDigestConfig().getDigests().get().forEach( (image, targetFiles) -> {
+        if ( getDigestSpecs().getDigests().isPresent() ) {
+            getDigestSpecs().getDigests().get().forEach( (image, targetFiles) -> {
                 if ((targetFiles == null) || (targetFiles.isEmpty())) return; // Skip this iteration
                 java.util.List<RegularFileProperty> files = new java.util.ArrayList<RegularFileProperty>();
                 targetFiles.forEach( targetFile -> {
@@ -268,8 +268,8 @@ public abstract class DockerXExtension {
     public ListProperty<DownloadItem> getDownloads() {
         ListProperty<DownloadItem> downloads = objectFactory.listProperty(DownloadItem.class);
         // Key == Download Dir (Default: Working Dir) | Value == Download URL
-        if ( getDownloadConfig().getDownloads().isPresent() ) {
-            getDownloadConfig().getDownloads().get().forEach( (downloadFolder, downloadUrl) -> {
+        if ( getDownloadSpecs().getDownloads().isPresent() ) {
+            getDownloadSpecs().getDownloads().get().forEach( (downloadFolder, downloadUrl) -> {
                 if ( downloadUrl != null ) {
                     DirectoryProperty downloadDir = objectFactory.directoryProperty();
                     downloadDir.set( getWorkingDirectory().dir(downloadFolder) );
@@ -294,8 +294,8 @@ public abstract class DockerXExtension {
 
     public MapProperty<String, RegularFileProperty> getSecrets() {
         MapProperty<String, RegularFileProperty> secrets = objectFactory.mapProperty(String.class, RegularFileProperty.class);
-        if ( getDockerConfig().getSecrets().isPresent() ) {
-            getDockerConfig().getSecrets().get().forEach( (secretId, secretFilename) -> {
+        if ( getDockerSpecs().getSecrets().isPresent() ) {
+            getDockerSpecs().getSecrets().get().forEach( (secretId, secretFilename) -> {
                 RegularFileProperty secret = objectFactory.fileProperty();
                 secret.set( projectLayout.getProjectDirectory().file(secretFilename) );
                 secrets.put(secretId, secret);

@@ -44,29 +44,29 @@ public class DockerXCatalog extends DefaultTask {
         catalogSource =
         DockerXCatalogUtil.getCatalogSourceData(getProject(), 
                                                 ext.getDryrun().get(), 
-                                                ext.getCatalogConfig().getMetadataName().getOrElse(EMPTY_STRING), 
-                                                ext.getCatalogConfig().getDisplayName().getOrElse(EMPTY_STRING), 
-                                                ext.getCatalogConfig().getImage().getOrElse(EMPTY_STRING), 
-                                                ext.getRegistryCredentials(ext.getDockerCredConfig()).get());
+                                                ext.getCatalogSpecs().getMetadataName().getOrElse(EMPTY_STRING), 
+                                                ext.getCatalogSpecs().getDisplayName().getOrElse(EMPTY_STRING), 
+                                                ext.getCatalogSpecs().getImage().getOrElse(EMPTY_STRING), 
+                                                ext.getRegistryCredentials(ext.getDockerCredSpecs()).get());
         
         getProject().getLogger().lifecycle(CATALOG_HEADER + catalogSource + CATALOG_FOOTER);
 
-        if ((ext.getCatalogConfig().getCommitMessage().getOrNull() != null) && 
-            (ext.getCatalogConfig().getCommitFile().getOrNull()    != null) &&
+        if ((ext.getCatalogSpecs().getCommitMessage().getOrNull() != null) && 
+            (ext.getCatalogSpecs().getCommitFile().getOrNull()    != null) &&
             (!ext.getDryrun().get())) {
             
             org.ajoberstar.grgit.Credentials gitHubCredentials =
-            new org.ajoberstar.grgit.Credentials(ext.getGitHubCredConfig().getUsername().getOrNull(), 
-                                                 ext.getGitHubCredConfig().getPassword().getOrNull());
+            new org.ajoberstar.grgit.Credentials(ext.getGitHubCredSpecs().getUsername().getOrNull(), 
+                                                 ext.getGitHubCredSpecs().getPassword().getOrNull());
 
              DirectoryProperty cloneDirectory = getProject().getObjects().directoryProperty();
-            cloneDirectory.set( getProject().getLayout().getBuildDirectory().dir( DockerXGitHubUtil.getRepositoryNameFromURI( ext.getGitHubConfig().getGitHubURI().get() ) ) );
+            cloneDirectory.set( getProject().getLayout().getBuildDirectory().dir( DockerXGitHubUtil.getRepositoryNameFromURI( ext.getGitHubSpecs().getGitHubURI().get() ) ) );
 
             DockerXGitHubUtil.addAndCommitFile( gitHubCredentials,
                                                 cloneDirectory,
-                                                ext.getGitHubConfig().getGitHubBranch().getOrNull(),
-                                                ext.getCatalogConfig().getCommitFile().get(),
-                                                ext.getCatalogConfig().getCommitMessage().get());
+                                                ext.getGitHubSpecs().getGitHubBranch().getOrNull(),
+                                                ext.getCatalogSpecs().getCommitFile().get(),
+                                                ext.getCatalogSpecs().getCommitMessage().get());
         }
     }
     
@@ -81,13 +81,13 @@ public class DockerXCatalog extends DefaultTask {
         
         taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_BASE + ") DRYRUN: "          ).append(ext.getDryrun().getOrNull()).append(NEW_LINE);
         taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_BASE + ") WORKING DIR: "     ).append(ext.getWorkingDirectory().getOrNull()).append(NEW_LINE);
-        taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_CATALOG + ") DISPLAY NAME: " ).append(ext.getCatalogConfig().getDisplayName().getOrNull()).append(NEW_LINE);
-        taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_CATALOG + ") METADATA NAME: ").append(ext.getCatalogConfig().getMetadataName().getOrNull()).append(NEW_LINE);
-        taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_CATALOG + ") IMAGE: "        ).append(ext.getCatalogConfig().getImage().getOrNull()).append(NEW_LINE);
-        taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_CATALOG + ") COMMIT MSG: "   ).append(ext.getCatalogConfig().getCommitMessage().getOrNull()).append(NEW_LINE);
-        taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_CATALOG + ") COMMIT FILE: "  ).append(ext.getCatalogConfig().getCommitFile().getOrNull()).append(NEW_LINE);
-        taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_GITHUB + ") URI: "           ).append(ext.getGitHubConfig().getGitHubURI().getOrNull()).append(NEW_LINE);
-        taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_GITHUB + ") BRANCH: "        ).append(ext.getGitHubConfig().getGitHubBranch().getOrNull()).append(NEW_LINE);
+        taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_CATALOG + ") DISPLAY NAME: " ).append(ext.getCatalogSpecs().getDisplayName().getOrNull()).append(NEW_LINE);
+        taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_CATALOG + ") METADATA NAME: ").append(ext.getCatalogSpecs().getMetadataName().getOrNull()).append(NEW_LINE);
+        taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_CATALOG + ") IMAGE: "        ).append(ext.getCatalogSpecs().getImage().getOrNull()).append(NEW_LINE);
+        taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_CATALOG + ") COMMIT MSG: "   ).append(ext.getCatalogSpecs().getCommitMessage().getOrNull()).append(NEW_LINE);
+        taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_CATALOG + ") COMMIT FILE: "  ).append(ext.getCatalogSpecs().getCommitFile().getOrNull()).append(NEW_LINE);
+        taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_GITHUB + ") URI: "           ).append(ext.getGitHubSpecs().getGitHubURI().getOrNull()).append(NEW_LINE);
+        taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_GITHUB + ") BRANCH: "        ).append(ext.getGitHubSpecs().getGitHubBranch().getOrNull()).append(NEW_LINE);
         
         return taskSpecs.toString();
     }

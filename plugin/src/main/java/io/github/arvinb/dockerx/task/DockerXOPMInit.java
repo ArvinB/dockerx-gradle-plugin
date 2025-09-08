@@ -40,14 +40,14 @@ public class DockerXOPMInit extends DefaultTask {
             DockerXVerifyUtil.verifyOperatorPackageManager(getProject());
 
             // Generate an olm.package declarative config blob
-            DockerXOPMUtil.initOLMPackage(getProject(),                                             // Gradle Project
-                                                ext.getWorkingDirectory(),                          // Working directory 
-                                                ext.getOpmConfig().getOutputPrefix().get(),         // Output file prefix
-                                                ext.getOpmConfig().getOutputFormat().get(),         // Output format (json|yaml) (default "yaml")
-                                                ext.getOpmConfig().getPackageName().get(),          // Package name
-                                                ext.getOpmConfig().getDefaultChannel().getOrNull(), // Bundle default channel
-                                                ext.getCatalogReadme().getOrNull(),                 // README.md
-                                                ext.getCatalogIcon().getOrNull());                  // Catalog icon (image.svg)
+            DockerXOPMUtil.initOLMPackage(getProject(),                                            // Gradle Project
+                                                ext.getWorkingDirectory(),                         // Working directory 
+                                                ext.getOpmSpecs().getOutputPrefix().get(),         // Output file prefix
+                                                ext.getOpmSpecs().getOutputFormat().get(),         // Output format (json|yaml) (default "yaml")
+                                                ext.getOpmSpecs().getPackageName().get(),          // Package name
+                                                ext.getOpmSpecs().getDefaultChannel().getOrNull(), // Bundle default channel
+                                                ext.getCatalogReadme().getOrNull(),                // README.md
+                                                ext.getCatalogIcon().getOrNull());                 // Catalog icon (image.svg)
         }
     }
 
@@ -63,15 +63,15 @@ public class DockerXOPMInit extends DefaultTask {
         
         taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_BASE + ") DRYRUN: ").append(ext.getDryrun().getOrNull()).append(NEW_LINE);
         taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_BASE + ") WORKING DIR: ").append(ext.getWorkingDirectory().getOrNull()).append(NEW_LINE);
-        taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_OPM + ") PACKAGE NAME: ").append(ext.getOpmConfig().getPackageName().getOrNull()).append(NEW_LINE);
-        taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_OPM + ") DEFAULT CHANNEL: ").append(ext.getOpmConfig().getDefaultChannel().getOrNull()).append(NEW_LINE);
-        taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_OPM + ") OUTPUT PREFIX: ").append(ext.getOpmConfig().getOutputPrefix().getOrNull()).append(NEW_LINE);
-        taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_OPM + ") FORMAT: ").append(ext.getOpmConfig().getOutputFormat().getOrNull()).append(NEW_LINE);
+        taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_OPM + ") PACKAGE NAME: ").append(ext.getOpmSpecs().getPackageName().getOrNull()).append(NEW_LINE);
+        taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_OPM + ") DEFAULT CHANNEL: ").append(ext.getOpmSpecs().getDefaultChannel().getOrNull()).append(NEW_LINE);
+        taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_OPM + ") OUTPUT PREFIX: ").append(ext.getOpmSpecs().getOutputPrefix().getOrNull()).append(NEW_LINE);
+        taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_OPM + ") FORMAT: ").append(ext.getOpmSpecs().getOutputFormat().getOrNull()).append(NEW_LINE);
         taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_OPM + ") CATALOG DESCRIPTION: ").append(ext.getCatalogReadme().getOrNull()).append(NEW_LINE);
         taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_OPM + ") CATALOG ICON: ").append(ext.getCatalogIcon().getOrNull()).append(NEW_LINE);
         
         counter.set(0);
-        ext.getOpmConfig().getChannels().get().forEach( channel -> {
+        ext.getOpmSpecs().getChannels().get().forEach( channel -> {
             taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_OPM + ") CHANNEL[" + counter + "]: ").append(channel).append(NEW_LINE);
             counter.getAndIncrement();
         });

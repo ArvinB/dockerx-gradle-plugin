@@ -42,24 +42,24 @@ public class DockerXBuild extends DefaultTask {
                 DockerXVerifyUtil.verifyDockerEnvironment();
                 
                 // Clean the environment
-                if ( ext.getDockerConfig().getClean().get() )
-                    DockerXDockerUtil.pruneAndClearCache(getProject(), ext.getDockerConfig().getBuilder().get());
+                if ( ext.getDockerSpecs().getClean().get() )
+                    DockerXDockerUtil.pruneAndClearCache(getProject(), ext.getDockerSpecs().getBuilder().get());
                 
                 // Build Docker Image
                 DockerXDockerUtil.buildDockerImage(getProject(),                                                // Gradle Project
-                                                   ext.getDockerConfig().getImages().get(),                      // Docker Images
-                                                   ext.getDockerfile(),                                          // Dockerfile
-                                                   ext.getWorkingDirectory(),                                    // Working Directory
-                                                   ext.getDockerConfig().getBuilder().get(),                     // Builder Name
-                                                   ext.getDockerConfig().getProvenance().getOrNull(),            // Provenance
-                                                   ext.getPlatformItems().get(),                                 // Platforms
-                                                   ext.getDockerConfig().getBuildArgs().get(),                   // Build Arguments
-                                                   ext.getSecrets().get(),                                       // Docker Secrets
-                                                   ext.getDockerConfig().getTarget().getOrNull(),                // Docker Target
-                                                   ext.getDockerConfig().getPush().get(),                        // Push Flag
-                                                   ext.getDockerConfig().getDevbuild().get(),                    // Dev Build Flag
-                                                   ext.getDockerConfig().getMultiArchReset().get(),              // Multi Arch Reset Flag
-                                                   ext.getRegistryCredentials(ext.getDockerCredConfig()).get()); // Docker Registry Credentials
+                                                   ext.getDockerSpecs().getImages().get(),                      // Docker Images
+                                                   ext.getDockerfile(),                                         // Dockerfile
+                                                   ext.getWorkingDirectory(),                                   // Working Directory
+                                                   ext.getDockerSpecs().getBuilder().get(),                     // Builder Name
+                                                   ext.getDockerSpecs().getProvenance().getOrNull(),            // Provenance
+                                                   ext.getPlatformItems().get(),                                // Platforms
+                                                   ext.getDockerSpecs().getBuildArgs().get(),                   // Build Arguments
+                                                   ext.getSecrets().get(),                                      // Docker Secrets
+                                                   ext.getDockerSpecs().getTarget().getOrNull(),                // Docker Target
+                                                   ext.getDockerSpecs().getPush().get(),                        // Push Flag
+                                                   ext.getDockerSpecs().getDevbuild().get(),                    // Dev Build Flag
+                                                   ext.getDockerSpecs().getMultiArchReset().get(),              // Multi Arch Reset Flag
+                                                   ext.getRegistryCredentials(ext.getDockerCredSpecs()).get()); // Docker Registry Credentials
             }
         }
     }
@@ -77,17 +77,17 @@ public class DockerXBuild extends DefaultTask {
         taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_BASE + ") DRYRUN: ").append(ext.getDryrun().getOrNull()).append(NEW_LINE);
         taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_SKIP + ") SKIP: ").append(ext.getSkip().getOrNull()).append(NEW_LINE);
         taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_BASE + ") WORKING DIR: ").append(ext.getWorkingDirectory().getOrNull()).append(NEW_LINE);
-        taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_DOCKERX_BUILD + ") CLEAN: ").append(ext.getDockerConfig().getClean().getOrNull()).append(NEW_LINE);
-        taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_DOCKERX_BUILD + ") DEVBUILD: ").append(ext.getDockerConfig().getDevbuild().getOrNull()).append(NEW_LINE);
-        taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_DOCKERX_BUILD + ") MULTIARCH REFRESH: ").append(ext.getDockerConfig().getMultiArchReset().getOrNull()).append(NEW_LINE);
-        taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_DOCKERX_BUILD + ") PUSH: ").append(ext.getDockerConfig().getPush().getOrNull()).append(NEW_LINE);
-        taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_DOCKERX_BUILD + ") BUILDER: ").append(ext.getDockerConfig().getBuilder().getOrNull()).append(NEW_LINE);
-        taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_DOCKERX_BUILD + ") PROVENANCE: ").append(ext.getDockerConfig().getProvenance().getOrNull()).append(NEW_LINE);
-        taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_DOCKERX_BUILD + ") TARGET: ").append(ext.getDockerConfig().getTarget().getOrNull()).append(NEW_LINE);
-        taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_DOCKERX_BUILD + ") DOCKERFILE: ").append(ext.getDockerConfig().getDockerfile().getOrNull()).append(NEW_LINE);
+        taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_DOCKERX_BUILD + ") CLEAN: ").append(ext.getDockerSpecs().getClean().getOrNull()).append(NEW_LINE);
+        taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_DOCKERX_BUILD + ") DEVBUILD: ").append(ext.getDockerSpecs().getDevbuild().getOrNull()).append(NEW_LINE);
+        taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_DOCKERX_BUILD + ") MULTIARCH REFRESH: ").append(ext.getDockerSpecs().getMultiArchReset().getOrNull()).append(NEW_LINE);
+        taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_DOCKERX_BUILD + ") PUSH: ").append(ext.getDockerSpecs().getPush().getOrNull()).append(NEW_LINE);
+        taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_DOCKERX_BUILD + ") BUILDER: ").append(ext.getDockerSpecs().getBuilder().getOrNull()).append(NEW_LINE);
+        taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_DOCKERX_BUILD + ") PROVENANCE: ").append(ext.getDockerSpecs().getProvenance().getOrNull()).append(NEW_LINE);
+        taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_DOCKERX_BUILD + ") TARGET: ").append(ext.getDockerSpecs().getTarget().getOrNull()).append(NEW_LINE);
+        taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_DOCKERX_BUILD + ") DOCKERFILE: ").append(ext.getDockerSpecs().getDockerfile().getOrNull()).append(NEW_LINE);
         
         counter.set(0);
-        ext.getDockerConfig().getBuildArgs().get().forEach( (argKey, argValue) -> {
+        ext.getDockerSpecs().getBuildArgs().get().forEach( (argKey, argValue) -> {
             taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_DOCKERX_BUILD + ") ARG KEY[" + counter + "]: ").append(argKey).append(NEW_LINE);
             taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_DOCKERX_BUILD + ") ARG VALUE[" + counter + "]: ").append(argValue).append(NEW_LINE);
             counter.getAndIncrement();
@@ -101,13 +101,13 @@ public class DockerXBuild extends DefaultTask {
         });
         
         counter.set(0);
-        ext.getDockerConfig().getPlatforms().get().forEach( platform -> {
+        ext.getDockerSpecs().getPlatforms().get().forEach( platform -> {
             taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_DOCKERX_BUILD + ") PLATFORM[" + counter + "]: ").append(platform).append(NEW_LINE);
             counter.getAndIncrement();
         });
         
         counter.set(0);
-        ext.getDockerConfig().getImages().get().forEach( image -> {
+        ext.getDockerSpecs().getImages().get().forEach( image -> {
             taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_DOCKERX_BUILD + ") IMAGE[" + counter + "]: ").append(image).append(NEW_LINE);
             counter.getAndIncrement();
         });

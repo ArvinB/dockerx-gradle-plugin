@@ -43,7 +43,7 @@ public class DockerXDigest extends DefaultTask {
                 
                 // Inject Digests into Target File(s)
                 if (!ext.getDigests().get().isEmpty())
-                    DockerXDigestUtil.injectImageDigests(getProject(), ext.getDigests().get(), ext.getRegistryCredentials(ext.getDockerCredConfig()).get());
+                    DockerXDigestUtil.injectImageDigests(getProject(), ext.getDigests().get(), ext.getRegistryCredentials(ext.getDockerCredSpecs()).get());
             }
         }
     }
@@ -63,7 +63,7 @@ public class DockerXDigest extends DefaultTask {
         taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_BASE + ") WORKING DIR: ").append(ext.getWorkingDirectory().getOrNull()).append(NEW_LINE);
         
         counter.set(0);
-        ext.getDigestConfig().getDigests().get().forEach( (image, targetFiles) -> {
+        ext.getDigestSpecs().getDigests().get().forEach( (image, targetFiles) -> {
             taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_DOCKERX_BUILD + ") DIGEST IMAGE[" + counter + "]: ").append(image).append(NEW_LINE);
             targetFiles.forEach( targetFile -> {
                 taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_DOCKERX_BUILD + ") DIGEST FILE[" + counter + "]: ").append(targetFile).append(NEW_LINE);

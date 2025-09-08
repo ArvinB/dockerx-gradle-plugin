@@ -28,19 +28,19 @@ public class DockerXGitHub extends DefaultTask {
             
             if ( !ext.getSkip().get() ) {
             
-                DockerXVerifyUtil.verifyGitHubRepo(ext.getGitHubConfig().getGitHubURI().get());
+                DockerXVerifyUtil.verifyGitHubRepo(ext.getGitHubSpecs().getGitHubURI().get());
                 
                 DirectoryProperty cloneDirectory = getProject().getObjects().directoryProperty();
-                cloneDirectory.set( getProject().getLayout().getBuildDirectory().dir( DockerXGitHubUtil.getRepositoryNameFromURI( ext.getGitHubConfig().getGitHubURI().get() ) ) );
+                cloneDirectory.set( getProject().getLayout().getBuildDirectory().dir( DockerXGitHubUtil.getRepositoryNameFromURI( ext.getGitHubSpecs().getGitHubURI().get() ) ) );
                 
                 org.ajoberstar.grgit.Credentials gitHubCredentials =
-                new org.ajoberstar.grgit.Credentials(ext.getGitHubCredConfig().getUsername().getOrNull(), 
-                                                     ext.getGitHubCredConfig().getPassword().getOrNull());
+                new org.ajoberstar.grgit.Credentials(ext.getGitHubCredSpecs().getUsername().getOrNull(), 
+                                                     ext.getGitHubCredSpecs().getPassword().getOrNull());
                 
                 DockerXGitHubUtil.cloneAndCheckoutRepository(gitHubCredentials, 
-                                                             ext.getGitHubConfig().getGitHubURI().get(), 
+                                                             ext.getGitHubSpecs().getGitHubURI().get(), 
                                                              cloneDirectory, 
-                                                             ext.getGitHubConfig().getGitHubBranch().getOrNull());
+                                                             ext.getGitHubSpecs().getGitHubBranch().getOrNull());
             }
         }
     }
@@ -57,8 +57,8 @@ public class DockerXGitHub extends DefaultTask {
         taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_BASE + ") DRYRUN: "       ).append(ext.getDryrun().getOrNull()).append(NEW_LINE);
         taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_SKIP + ") SKIP: "         ).append(ext.getSkip().getOrNull()).append(NEW_LINE);
         taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_BASE + ") WORKING DIR: "  ).append(ext.getWorkingDirectory().getOrNull()).append(NEW_LINE);
-        taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_GITHUB + ") URI: "        ).append(ext.getGitHubConfig().getGitHubURI().getOrNull()).append(NEW_LINE);
-        taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_GITHUB + ") BRANCH: "     ).append(ext.getGitHubConfig().getGitHubBranch().getOrNull()).append(NEW_LINE);
+        taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_GITHUB + ") URI: "        ).append(ext.getGitHubSpecs().getGitHubURI().getOrNull()).append(NEW_LINE);
+        taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_GITHUB + ") BRANCH: "     ).append(ext.getGitHubSpecs().getGitHubBranch().getOrNull()).append(NEW_LINE);
         
         return taskSpecs.toString();
     }

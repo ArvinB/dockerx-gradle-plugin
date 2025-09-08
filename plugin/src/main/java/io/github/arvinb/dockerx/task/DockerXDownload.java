@@ -40,10 +40,10 @@ public class DockerXDownload extends DefaultTask {
                 
                 DockerXDownloadUtil.downloadArtifacts(getProject(),
                                                       ext.getDownloads().get(),
-                                                      ext.getDownloadCredConfig().getUsername().getOrNull(), 
-                                                      ext.getDownloadCredConfig().getPassword().getOrNull(), 
-                                                      ext.getDownloadConfig().getOverwrite().get(),
-                                                      ext.getDownloadConfig().getIdentityToken().get());
+                                                      ext.getDownloadCredSpecs().getUsername().getOrNull(), 
+                                                      ext.getDownloadCredSpecs().getPassword().getOrNull(), 
+                                                      ext.getDownloadSpecs().getOverwrite().get(),
+                                                      ext.getDownloadSpecs().getIdentityToken().get());
             }
         }
     }
@@ -61,8 +61,8 @@ public class DockerXDownload extends DefaultTask {
         taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_BASE + ") DRYRUN: ").append(ext.getDryrun().getOrNull()).append(NEW_LINE);
         taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_SKIP + ") SKIP: ").append(ext.getSkip().getOrNull()).append(NEW_LINE);
         taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_BASE + ") WORKING DIR: ").append(ext.getWorkingDirectory().getOrNull()).append(NEW_LINE);
-        taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_DOWNLOAD + ") OVERWRITE: ").append(ext.getDownloadConfig().getOverwrite().getOrNull()).append(NEW_LINE);
-        taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_DOWNLOAD + ") ID TOKEN: ").append(ext.getDownloadConfig().getIdentityToken().getOrNull()).append(NEW_LINE);
+        taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_DOWNLOAD + ") OVERWRITE: ").append(ext.getDownloadSpecs().getOverwrite().getOrNull()).append(NEW_LINE);
+        taskSpecs.append(LABEL_DOCKERX).append("(" + LABEL_DOWNLOAD + ") ID TOKEN: ").append(ext.getDownloadSpecs().getIdentityToken().getOrNull()).append(NEW_LINE);
         
         ext.getDownloads().get().forEach( downloadItem -> {
             
