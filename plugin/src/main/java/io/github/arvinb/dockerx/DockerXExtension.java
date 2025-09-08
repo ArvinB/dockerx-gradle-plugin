@@ -107,7 +107,7 @@ public abstract class DockerXExtension {
     public DockerXDigestConfig getDigestConfig()           { return this.digestConfig;       }
     public DockerXDockerConfig getDockerConfig()           { return this.dockerConfig;       }
     public DockerXDownloadConfig getDownloadConfig()       { return this.downloadConfig;     }
-    public DockerXExecuteConfig getExecConfig()         { return this.execConfig;         }
+    public DockerXExecuteConfig getExecConfig()            { return this.execConfig;         }
     public DockerXGitHubConfig getGitHubConfig()           { return this.gitHubConfig;       }
     public DockerXOPMConfig getOpmConfig()                 { return this.opmConfig;          }
     public DockerXSQLiteConfig getSqliteConfig()           { return this.sqliteConfig;       }
@@ -236,9 +236,10 @@ public abstract class DockerXExtension {
             for ( Map.Entry<String, String> actionItem : getExecConfig().getActions().get().entrySet() ) {
                 if ( actionItem.getValue() != null ) {
                     RegularFileProperty actionFile = objectFactory.fileProperty();
-                    Property<String> actionArgs = objectFactory.property(String.class);
+                    ListProperty<String> actionArgs = objectFactory.listProperty(String.class);
+                    List<String> args = Arrays.asList( actionItem.getValue().split("\\s+") );
                     actionFile.set(getWorkingDirectory().file(actionItem.getKey()));
-                    actionArgs.set(actionItem.getValue());
+                    actionArgs.set(args);
                     actions.add(new ActionItem(getWorkingDirectory(), actionFile, actionArgs));
                 }
             }

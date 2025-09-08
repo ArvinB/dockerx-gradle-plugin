@@ -24,7 +24,6 @@ import org.gradle.api.file.*;
 import org.gradle.api.provider.*;
 import org.gradle.api.tasks.*;
 import io.github.arvinb.dockerx.util.*;
-import java.util.Arrays;
 import static io.github.arvinb.dockerx.DockerXConstants.*;
 
 public interface DockerXExecuteConfig {
@@ -50,13 +49,13 @@ public interface DockerXExecuteConfig {
         private RegularFileProperty actionObj;
         private ListProperty<String> actionArgs;
         
-        public ActionItem(DirectoryProperty actionWorkDir, RegularFileProperty actionObj, Property<String> actionArgs) throws GradleException {
+        public ActionItem(DirectoryProperty actionWorkDir, RegularFileProperty actionObj, ListProperty<String> actionArgs) throws GradleException {
             
             try {
                 
                 this.actionWorkDir = actionWorkDir;
                 this.actionObj = actionObj;
-                this.actionArgs = (ListProperty<String>)actionArgs.map( val -> Arrays.asList( val.split("\\s+") ) );
+                this.actionArgs = actionArgs;
             
             } catch (Exception ex) {
                 DockerXVerifyUtil.stopGradleException(MESSAGE_ACTION_ITEM + ex.getMessage());
