@@ -96,7 +96,7 @@ public class DockerXDockerUtil {
     
     public static void buildDockerImage(Project project, 
                                         List<String> images, 
-                                        RegularFileProperty dockerfile, 
+                                        RegularFile dockerfile, 
                                         DirectoryProperty workingDir, 
                                         String builder, 
                                         String provenance, 
@@ -120,7 +120,7 @@ public class DockerXDockerUtil {
             
             List<String> builtDockerImages = new ArrayList<String>();
             List<String> buildArguments = new ArrayList<String>();
-            if (dockerfile != null) { buildArguments.add(CMD_LINE_OPT_FILE); buildArguments.add(dockerfile.get().getAsFile().getPath()); }
+            if (dockerfile != null) { buildArguments.add(CMD_LINE_OPT_FILE); buildArguments.add(dockerfile.getAsFile().getPath()); }
             if ((target != null) && (!target.trim().isEmpty())) { buildArguments.add(CMD_LINE_OPT_TARGET); buildArguments.add(target); }
             if (!buildArgs.isEmpty()) { buildArgs.forEach( (key, value) -> { buildArguments.add(CMD_LINE_OPT_BUILD_ARG); buildArguments.add(key + "=" + value); }); }
             if (!secrets.isEmpty()) { secrets.forEach( (secretId, secret) -> { buildArguments.add(CMD_LINE_OPT_SECRET); buildArguments.add("id=" + secretId + ",src=" + secret.get().getAsFile().getPath()); }); }

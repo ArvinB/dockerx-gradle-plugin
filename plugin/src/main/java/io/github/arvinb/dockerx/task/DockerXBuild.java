@@ -48,7 +48,7 @@ public class DockerXBuild extends DefaultTask {
                 // Build Docker Image
                 DockerXDockerUtil.buildDockerImage(getProject(),                                                // Gradle Project
                                                    ext.getDockerSpecs().getImages().get(),                      // Docker Images
-                                                   ext.getDockerfile(),                                         // Dockerfile
+                                                   ext.getDockerfile().getOrNull(),                             // Dockerfile
                                                    ext.getWorkingDirectory(),                                   // Working Directory
                                                    ext.getDockerSpecs().getBuilder().get(),                     // Builder Name
                                                    ext.getDockerSpecs().getProvenance().getOrNull(),            // Provenance
