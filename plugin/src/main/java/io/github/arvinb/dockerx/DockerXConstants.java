@@ -44,11 +44,24 @@ public class DockerXConstants {
     public static final String TASK_EXECUTE                = "dockerXExecute";
     public static final String TASK_GITHUB                 = "dockerXGitHub";
     public static final String TASK_OPM_BUNDLE             = "dockerXOPMBundle";
+    public static final String TASK_OPM_INIT               = "dockerXOPMInit";
     public static final String TASK_OPM_REGISTRY           = "dockerXOPMRegistry";
+    public static final String TASK_OPM_RENDER             = "dockerXOPMRender";
     public static final String TASK_OPM_VALIDATE           = "dockerXOPMValidate";
     public static final String TASK_SQLITE_EXECUTE         = "dockerXSQLiteExecute";
-    public static final String TASK_OPM_RENDER             = "dockerXOPMRender";
-    public static final String TASK_OPM_INIT               = "dockerXOPMInit";
+
+    public static final String DESC_BUILD                  = "DockerX Build Container Image";
+    public static final String DESC_CATALOG                = "DockerX Catalog Source File";
+    public static final String DESC_DIGEST                 = "DockerX Digest SHAs at build-time";
+    public static final String DESC_DOWNLOAD               = "DockerX Download Artifacts";
+    public static final String DESC_EXECUTE                = "DockerX Execute Scripts and Tools";
+    public static final String DESC_GITHUB                 = "DockerX GitHub Repository Commands";
+    public static final String DESC_OPM_BUNDLE             = "DockerX OPM Bundle Command";
+    public static final String DESC_OPM_INIT               = "DockerX OPM Init Command";
+    public static final String DESC_OPM_REGISTRY           = "DockerX OPM Registry Command";
+    public static final String DESC_OPM_RENDER             = "DockerX OPM Render Command";
+    public static final String DESC_OPM_VALIDATE           = "DockerX OPM Validate Command";
+    public static final String DESC_SQLITE_EXECUTE         = "DockerX SQLite Execute Statements";
     
     public static final String LABEL_DOCKERX               = "DockerX";
     public static final String LABEL_BASE                  = "Base";

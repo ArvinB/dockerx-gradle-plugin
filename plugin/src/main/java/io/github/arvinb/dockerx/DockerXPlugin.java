@@ -30,17 +30,17 @@ public class DockerXPlugin implements Plugin<Project> {
         
         project.getExtensions().create(EXTENSION_NAME, DockerXExtension.class, project.getObjects(), project.getLayout());
 
-        project.getTasks().register(TASK_GITHUB,         DockerXGitHub.class       ).configure( publish -> { publish.setGroup(TASK_GROUP); });
-        project.getTasks().register(TASK_DOWNLOAD,       DockerXDownload.class     ).configure( publish -> { publish.setGroup(TASK_GROUP); });
-        project.getTasks().register(TASK_BUILD,          DockerXBuild.class        ).configure( publish -> { publish.setGroup(TASK_GROUP); });
-        project.getTasks().register(TASK_CATALOG,        DockerXCatalog.class      ).configure( publish -> { publish.setGroup(TASK_GROUP); });
-        project.getTasks().register(TASK_DIGEST,         DockerXDigest.class       ).configure( publish -> { publish.setGroup(TASK_GROUP); });
-        project.getTasks().register(TASK_EXECUTE,        DockerXExecute.class      ).configure( publish -> { publish.setGroup(TASK_GROUP); });
-        project.getTasks().register(TASK_OPM_BUNDLE,     DockerXOPMBundle.class    ).configure( publish -> { publish.setGroup(TASK_GROUP); });
-        project.getTasks().register(TASK_OPM_INIT,       DockerXOPMInit.class      ).configure( publish -> { publish.setGroup(TASK_GROUP); });
-        project.getTasks().register(TASK_OPM_REGISTRY,   DockerXOPMRegistry.class  ).configure( publish -> { publish.setGroup(TASK_GROUP); });
-        project.getTasks().register(TASK_OPM_RENDER,     DockerXOPMRender.class    ).configure( publish -> { publish.setGroup(TASK_GROUP); });
-        project.getTasks().register(TASK_OPM_VALIDATE,   DockerXOPMValidate.class  ).configure( publish -> { publish.setGroup(TASK_GROUP); });
-        project.getTasks().register(TASK_SQLITE_EXECUTE, DockerXSQLiteExecute.class).configure( publish -> { publish.setGroup(TASK_GROUP); });
+        project.getTasks().register(TASK_GITHUB,         DockerXGitHub.class       ).configure( publish -> { publish.setGroup(TASK_GROUP); publish.setDescription(DESC_GITHUB); });
+        project.getTasks().register(TASK_DOWNLOAD,       DockerXDownload.class     ).configure( publish -> { publish.setGroup(TASK_GROUP); publish.setDescription(DESC_DOWNLOAD); });
+        project.getTasks().register(TASK_BUILD,          DockerXBuild.class        ).configure( publish -> { publish.setGroup(TASK_GROUP); publish.setDescription(DESC_BUILD); });
+        project.getTasks().register(TASK_CATALOG,        DockerXCatalog.class      ).configure( publish -> { publish.setGroup(TASK_GROUP); publish.setDescription(DESC_CATALOG); });
+        project.getTasks().register(TASK_DIGEST,         DockerXDigest.class       ).configure( publish -> { publish.setGroup(TASK_GROUP); publish.setDescription(DESC_DIGEST); });
+        project.getTasks().register(TASK_EXECUTE,        DockerXExecute.class      ).configure( publish -> { publish.setGroup(TASK_GROUP); publish.setDescription(DESC_EXECUTE); });
+        project.getTasks().register(TASK_OPM_BUNDLE,     DockerXOPMBundle.class    ).configure( publish -> { publish.setGroup(TASK_GROUP); publish.setDescription(DESC_OPM_BUNDLE); });
+        project.getTasks().register(TASK_OPM_INIT,       DockerXOPMInit.class      ).configure( publish -> { publish.setGroup(TASK_GROUP); publish.setDescription(DESC_OPM_INIT); });
+        project.getTasks().register(TASK_OPM_REGISTRY,   DockerXOPMRegistry.class  ).configure( publish -> { publish.setGroup(TASK_GROUP); publish.setDescription(DESC_OPM_REGISTRY); });
+        project.getTasks().register(TASK_OPM_RENDER,     DockerXOPMRender.class    ).configure( publish -> { publish.setGroup(TASK_GROUP); publish.setDescription(DESC_OPM_RENDER); });
+        project.getTasks().register(TASK_OPM_VALIDATE,   DockerXOPMValidate.class  ).configure( publish -> { publish.setGroup(TASK_GROUP); publish.setDescription(DESC_OPM_VALIDATE); });
+        project.getTasks().register(TASK_SQLITE_EXECUTE, DockerXSQLiteExecute.class).configure( publish -> { publish.setGroup(TASK_GROUP); publish.setDescription(DESC_SQLITE_EXECUTE); });
     }
 }
