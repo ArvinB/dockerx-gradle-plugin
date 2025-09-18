@@ -131,6 +131,8 @@ public abstract class DockerXExtension {
 
         getExecSpecs().getHideArgs().convention(DEFAULT_TRUE);
 
+        getOpmSpecs().getCatalogIcon().convention(CATALOG_ICON);
+        getOpmSpecs().getCatalogReadme().convention(CATALOG_README);
         getOpmSpecs().getClean().convention(DEFAULT_TRUE);
         getOpmSpecs().getPush().convention(DEFAULT_FALSE);
         getOpmSpecs().getOverwriteMetadata().convention(DEFAULT_FALSE);
@@ -182,15 +184,19 @@ public abstract class DockerXExtension {
 
     public RegularFileProperty getCatalogReadme() {
         RegularFileProperty catalogReadme = objectFactory.fileProperty();
-        if ( !getOpmSpecs().getCatalogReadme().isPresent() )
-            catalogReadme.set( getWorkingDirectory().file(getOpmSpecs().getCatalogReadme().get()) );
+        if ( !getOpmSpecs().getCatalogReadme().isPresent() ) {
+            Provider<RegularFile> readmeFile = getWorkingDirectory().file(getOpmSpecs().getCatalogReadme().get());
+            if ( readmeFile.get().getAsFile().exists() ) catalogReadme.set( readmeFile );
+        }
         return catalogReadme;
     }
 
     public RegularFileProperty getCatalogIcon() {
         RegularFileProperty catalogIcon = objectFactory.fileProperty();
-        if ( !getOpmSpecs().getCatalogIcon().isPresent() )
-            catalogIcon.set( getWorkingDirectory().file(getOpmSpecs().getCatalogIcon().get()) );
+        if ( !getOpmSpecs().getCatalogIcon().isPresent() ){
+            Provider<RegularFile> iconFile = getWorkingDirectory().file(getOpmSpecs().getCatalogIcon().get());
+            if ( iconFile.get().getAsFile().exists() ) catalogIcon.set( iconFile );
+        }
         return catalogIcon;
     }
 
