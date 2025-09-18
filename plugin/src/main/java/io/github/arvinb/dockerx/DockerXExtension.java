@@ -181,32 +181,30 @@ public abstract class DockerXExtension {
     }
 
     public RegularFileProperty getCatalogReadme() {
-        
-        if ( !getOpmSpecs().getCatalogReadme().isPresent() ) return null;
         RegularFileProperty catalogReadme = objectFactory.fileProperty();
-        catalogReadme.set( getWorkingDirectory().file(getOpmSpecs().getCatalogReadme().get()) );
+        if ( !getOpmSpecs().getCatalogReadme().isPresent() )
+            catalogReadme.set( getWorkingDirectory().file(getOpmSpecs().getCatalogReadme().get()) );
         return catalogReadme;
     }
 
     public RegularFileProperty getCatalogIcon() {
-        
-        if ( !getOpmSpecs().getCatalogIcon().isPresent() ) return null;
         RegularFileProperty catalogIcon = objectFactory.fileProperty();
-        catalogIcon.set( getWorkingDirectory().file(getOpmSpecs().getCatalogIcon().get()) );
+        if ( !getOpmSpecs().getCatalogIcon().isPresent() )
+            catalogIcon.set( getWorkingDirectory().file(getOpmSpecs().getCatalogIcon().get()) );
         return catalogIcon;
     }
 
     public RegularFileProperty getDataSourceDbFile() {
-        if ( !getSqliteSpecs().getDataSourceDb().isPresent() ) return null;
         RegularFileProperty dataSourceDb = objectFactory.fileProperty();
-        dataSourceDb.set( getWorkingDirectory().file(getSqliteSpecs().getDataSourceDb().get()) );
+        if ( getSqliteSpecs().getDataSourceDb().isPresent() )
+            dataSourceDb.set( getWorkingDirectory().file(getSqliteSpecs().getDataSourceDb().get()) );
         return dataSourceDb;
     }
 
     public RegularFileProperty getDockerfile() {
-        if ( !getDockerSpecs().getDockerfile().isPresent() ) return null;
         RegularFileProperty dockerfile = objectFactory.fileProperty();
-        dockerfile.set( getWorkingDirectory().file(getDockerSpecs().getDockerfile().get()) );
+        if ( getDockerSpecs().getDockerfile().isPresent() )
+            dockerfile.set( getWorkingDirectory().file(getDockerSpecs().getDockerfile().get()) );
         return dockerfile;
     }
     
