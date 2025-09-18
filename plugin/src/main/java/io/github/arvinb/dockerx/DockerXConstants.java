@@ -90,8 +90,6 @@ public class DockerXConstants {
     
     public static final String CATALOG_HEADER              = "========= BEGIN CATALOG SOURCE" + NEW_LINE;
     public static final String CATALOG_FOOTER              = "========= CATALOG SOURCE END" + NEW_LINE;
-    public static final String CATALOG_ICON                = "icon.svg";
-    public static final String CATALOG_README              = "README.md";
     public static final String CATALOG_SOURCE              = "apiVersion: operators.coreos.com/v1alpha1" + NEW_LINE
                                                            + "kind: CatalogSource" + NEW_LINE
                                                            + "metadata:" + NEW_LINE
